@@ -1,0 +1,103 @@
+======================================================================
+THERMAL IMAGE EXTRACTION REPORT
+======================================================================
+
+Source File: /mnt/c/Users/G/Downloads/ir-img/sample-image/P2L_260130_163532_499.jpg
+File Size: 5,402,836 bytes
+Extraction Date: 2026-01-30 17:26:40
+
+----------------------------------------------------------------------
+EXIF INFORMATION
+----------------------------------------------------------------------
+  byte_order: Big-endian (Motorola)
+  ImageWidth: 1080
+  Model: USB_IR_RS300_P2L
+  ImageHeight: 1440
+  Make: Infrared
+  ImageDescription: {"imageOfDevices":"IMG_P_DEVICES"}
+  Orientation: 0
+  DateTime: 2026:01:30 16:35:32
+
+----------------------------------------------------------------------
+CALIBRATION DATA
+----------------------------------------------------------------------
+  Ambient Temperature: 25.0
+  Emissivity Factor: 0.25
+  Distance Factor: 1.0
+  Humidity Factor: 0.800000011920929
+  Reflected Temperature: 25.0
+  Raw Float Values: [25.0, 0.25, 1.0, 0.800000011920929, 25.0, 0.0, 0.0, 0.0, 2.802596928649634e-45, 0.0]
+
+----------------------------------------------------------------------
+DEVICE/SOFTWARE INFORMATION
+----------------------------------------------------------------------
+  software: Thermal Master
+  raw_size: 768
+
+----------------------------------------------------------------------
+FRAME INFORMATION
+----------------------------------------------------------------------
+  Frame Dimensions: 256 x 192
+  Total Frame Slots: 52
+  Non-Empty Frames: 2
+  Frames Extracted: 2
+
+  Frame Details:
+    Frame 00: [DATA] grayscale range=5-226
+    Frame 01: [DATA] min=18972, max=20764, mean=19156.9, std=273.5
+
+----------------------------------------------------------------------
+TEMPERATURE READINGS
+----------------------------------------------------------------------
+  Unit: Fahrenheit
+  Conversion: T(K) = raw / 64
+
+  Frame 01 (Thermal):
+    Minimum:  73.9°F
+    Maximum:  124.3°F
+    Average:  79.1°F
+    Span:     50.4°F
+
+----------------------------------------------------------------------
+IMAGE PROCESSING NOTES
+----------------------------------------------------------------------
+  Output Format: PNG
+  Raw Files Saved: No
+  CLAHE Applied: No
+
+  Thermal Frame Processing:
+    Step 1 - Normalization:
+      - Normalized from 16-bit to 8-bit using min-max linear stretch
+      - Formula: output = (pixel - min) / (max - min) * 255
+      - Min/max values auto-detected from each frame's pixel data
+      - Coldest pixel maps to 0 (black), hottest to 255 (white)
+      - Frame 01 stretched using min=18972, max=20764
+
+    WARNING: This processing loses radiometric precision
+
+  Preview Frame Processing:
+    - Extracted 8-bit grayscale from packed format (low byte of each 16-bit word)
+    - No histogram manipulation applied
+
+----------------------------------------------------------------------
+MAIN JPEG IMAGE
+----------------------------------------------------------------------
+  Size: 241,780 bytes
+  Extracted: True
+
+----------------------------------------------------------------------
+APP SEGMENT SUMMARY
+----------------------------------------------------------------------
+  APP1 (EXIF): 350 bytes
+  APP5 (Calibration): 42 bytes
+  APP9 (Info): 768 bytes
+  APP2 (IJPEG): 80 bytes
+  APP4: 47,340 bytes
+  APP6: 256 bytes
+  APP7: 32 bytes
+  APP8: 32 bytes
+  APP3 (Frames): 5,111,808 bytes
+
+======================================================================
+END OF REPORT
+======================================================================
