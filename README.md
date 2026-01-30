@@ -12,6 +12,22 @@ The [Thermal Master P2](https://thermalmaster.com/products/thermal-master-p2) is
 
 The app saves images as JPEGs. Files with embedded thermal data are 5-8 MB. Files without (exported or shared images) are 70-200 KB—just the visible colorized image with no raw data to extract.
 
+## Sample Data
+
+A sample image and its extracted output are included in the `sample-image/` directory.
+
+**Input Image (Visible JPEG):**
+
+![Input Image](sample-image/P2L_260130_163532_499/P2L_260130_163532_499_visible.jpg)
+
+**Extracted Thermal Data (Frame 01):**
+
+![Thermal Data](sample-image/P2L_260130_163532_499/frame_01_thermal.png)
+
+**Extracted Preview (Frame 00):**
+
+![Preview](sample-image/P2L_260130_163532_499/frame_00_preview.png)
+
 ## What's inside these files
 
 I reverse-engineered the file format. Here's what I found:
@@ -129,22 +145,6 @@ The camera's full range (-20°C to 600°C) maps to raw values 16202-55882, which
 ### The visible image
 
 After all the APP markers, there's a normal JPEG showing the colorized thermal image with temperature annotations from the app.
-
-## Sample Data
-
-A sample image and its extracted output are included in the `sample-image/` directory.
-
-**Input Image:**
-
-![Input Image](sample-image/P2L_260130_163532_499.jpg)
-
-**Extracted Thermal Data (Frame 01):**
-
-![Thermal Data](sample-image/P2L_260130_163532_499/frame_01_thermal.png)
-
-**Extracted Preview (Frame 00):**
-
-![Preview](sample-image/P2L_260130_163532_499/frame_00_preview.png)
 
 ## Installation
 
