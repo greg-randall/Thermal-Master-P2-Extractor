@@ -1,0 +1,15 @@
+*.jp*g
+*.png
+*.tif*
+*.webm
+*.txt
+*.md
+*.py
+
+extracted_frames/
+old/
+samples/
+
+!extract_thermal.py
+!README.md
+
