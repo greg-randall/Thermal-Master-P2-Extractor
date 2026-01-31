@@ -5,6 +5,7 @@
 *.txt
 *.md
 *.py
+*.bin
 
 extracted_frames/
 old/
