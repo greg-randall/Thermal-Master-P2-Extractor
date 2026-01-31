@@ -1,4 +1,4 @@
-# Thermal Master P2 image extractor
+# Thermal Master P2 Image Extractor
 
 Extracts embedded thermal data from JPEG files produced by the Thermal Master P2 infrared camera.
 
@@ -39,7 +39,7 @@ The camera stuffs data into JPEG APP markers before the actual image:
 | Marker | Contents |
 |--------|----------|
 | FFE1 (APP1) | EXIF metadata—camera model, timestamp |
-| FFE2 (APP2) | Some kind of "IJPEG" header |
+| FFE2 (APP2) | "IJPEG" header—frame format info (dimensions, count) |
 | FFE3 (APP3) | Frame data, repeated 79 times (~5 MB total) |
 | FFE4 (APP4) | Temperature-dependent correction table (~47 KB) |
 | FFE5 (APP5) | Calibration data as floats |
@@ -111,6 +111,22 @@ The meaning of these fields is unclear. One value might be an offset, the other 
 - Possibly related to sensor non-uniformity correction
 
 The extractor saves this to `*_app4_correction.txt` for inspection.
+
+### APP2 contents (IJPEG header)
+
+APP2 contains an 80-byte header with the magic string "IJPEG" and frame format info:
+
+| Offset | Size | Contents |
+|--------|------|----------|
+| 0-3 | 4 | Header/version |
+| 4-9 | 6 | "IJPEG\0" magic |
+| 32-35 | 4 | Frame size in bytes |
+| 40-41 | 2 | Frame count (typically 2) |
+| 42-43 | 2 | Width (256 for thermal) |
+| 44-45 | 2 | Height (192 for thermal) |
+| 64-67 | 4 | Total data size (frame_size × 50) |
+
+Most files have 256×192 frames. Some files (possibly a different capture mode) have 1024×768 frames—these may contain visible camera data rather than thermal.
 
 The conversion formula is:
 
