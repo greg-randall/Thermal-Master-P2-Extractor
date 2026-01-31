@@ -89,38 +89,28 @@ APP5 contains floats that are probably calibration parameters:
 
 ### APP4 contents (correction table)
 
-APP4 contains a temperature-dependent correction lookup table, likely used for Fixed Pattern Noise (FPN) or sensor non-linearity correction.
+APP4 contains a static correction table—identical across all images from the same camera. Likely factory calibration data baked into the firmware.
 
 **Structure:**
 - 57 blocks of 256 bytes each
 - 64 entries per block (4 bytes per entry)
 - Total: 47,340 bytes (~14,570 bytes of actual data, rest is zero padding)
+- Block 0 appears to be header/metadata
+- Actual correction entries start around entry 58 of block 0
 
 **Entry format:**
 ```
-[temp_index: uint16 LE][correction: int16 LE]
+[value1: uint16 LE][value2: uint16 LE]
 ```
 
-- `temp_index`: Temperature bin index (observed range: 53-64)
-- `correction`: Signed offset value (typically ±125)
+The meaning of these fields is unclear. One value might be an offset, the other an index. The second value often falls in the 53-64 range.
 
-**Temperature index distribution:**
+**What we know:**
+- Same data in every image from this camera
+- Therefore it's static calibration, not per-image data
+- Possibly related to sensor non-uniformity correction
 
-| Index | Count | Correction Range |
-|-------|-------|------------------|
-| 64    | 56    | -122 to +78      |
-| 63    | 116   | -100 to +116     |
-| 62    | 204   | -111 to +123     |
-| 61    | 312   | -125 to +117     |
-| 60    | 272   | -119 to +122     |
-| 59    | 256   | -123 to +124     |
-| 58    | 264   | -120 to +120     |
-| 57    | 520   | -128 to +106     |
-| 56    | 476   | -76 to +123      |
-
-**Purpose:**
-
-The 57 blocks likely correspond to sensor readout groups (possibly ~4 rows each). The app applies these corrections to produce clean visible JPEGs.
+The extractor saves this to `*_app4_correction.txt` for inspection.
 
 The conversion formula is:
 

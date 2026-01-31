@@ -4,7 +4,7 @@ THERMAL IMAGE EXTRACTION REPORT
 
 Source File: /mnt/c/Users/G/Downloads/ir-img/sample-image/P2L_260130_163532_499.jpg
 File Size: 5,402,836 bytes
-Extraction Date: 2026-01-30 17:26:40
+Extraction Date: 2026-01-30 21:26:06
 
 ----------------------------------------------------------------------
 EXIF INFORMATION

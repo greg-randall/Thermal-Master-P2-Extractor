@@ -227,6 +227,54 @@ def parse_app4_data(app4_data: bytes) -> dict:
     return info
 
 
+def save_app4_correction_table(app4_data: bytes, output_path: Path) -> bool:
+    """Save APP4 correction table to a text file for inspection."""
+    if not app4_data:
+        return False
+
+    try:
+        with open(output_path, 'w') as f:
+            f.write("# APP4 Correction Table\n")
+            f.write(f"# Size: {len(app4_data)} bytes\n")
+            f.write("# Format: 57 blocks × 64 entries (4 bytes each)\n")
+            f.write("# Entry format: [value1: uint16 LE][value2: uint16 LE]\n")
+            f.write("#\n")
+            f.write("# Block | Entry | Value1 | Value2 | Raw Hex\n")
+            f.write("#" + "-" * 55 + "\n")
+
+            block_num = 0
+            entry_num = 0
+            max_bytes = min(len(app4_data), 57 * 256)
+
+            for i in range(0, max_bytes, 4):
+                if i > 0 and i % 256 == 0:
+                    block_num += 1
+                    entry_num = 0
+                    f.write("\n")
+
+                if i + 4 > len(app4_data):
+                    break
+
+                val1 = app4_data[i] | (app4_data[i + 1] << 8)
+                val2 = app4_data[i + 2] | (app4_data[i + 3] << 8)
+
+                # Convert val2 to signed if needed
+                val2_signed = val2 if val2 < 32768 else val2 - 65536
+
+                raw = f"{app4_data[i]:02x} {app4_data[i+1]:02x} {app4_data[i+2]:02x} {app4_data[i+3]:02x}"
+
+                # Only write non-zero entries
+                if val1 != 0 or val2 != 0:
+                    f.write(f"  {block_num:2d}   |  {entry_num:2d}   | {val1:5d} | {val2_signed:+6d} | {raw}\n")
+
+                entry_num += 1
+
+        return True
+    except Exception as e:
+        print(f"  Warning: Failed to save APP4 correction table: {e}")
+        return False
+
+
 def parse_app9_info(app9_data: bytes) -> dict:
     """Parse APP9 data containing device/software info."""
     info = {}
@@ -798,6 +846,13 @@ Supported formats:
         metadata['jpeg_size'] = 0
         metadata['jpeg_extracted'] = False
         print("  Warning: Could not locate main JPEG image")
+
+    # Save APP4 correction table if present
+    if markers['app4_data']:
+        print("\nExtracting APP4 correction table...")
+        app4_path = output_dir / f"{input_path.stem}_app4_correction.txt"
+        if save_app4_correction_table(markers['app4_data'], app4_path):
+            print(f"  Saved: {app4_path.name} ({len(markers['app4_data']):,} bytes)")
 
     # Write metadata report
     print("\nWriting metadata report...")
