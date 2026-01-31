@@ -61,19 +61,29 @@ After all the APP markers, there's a normal JPEG showing the colorized thermal i
 
 ### APP2: IJPEG Header
 
-APP2 contains an 80-byte header with the magic string "IJPEG" and frame format info:
+APP2 contains an 80-byte header defining the frame format. Mostly identical across images from the same camera.
 
-| Offset | Size | Contents |
-|--------|------|----------|
-| 0–3 | 4 | Header/version |
-| 4–9 | 6 | "IJPEG\0" magic |
-| 32–35 | 4 | Frame size in bytes |
-| 40–41 | 2 | Frame count (typically 2) |
-| 42–43 | 2 | Width (256 for thermal) |
-| 44–45 | 2 | Height (192 for thermal) |
-| 64–67 | 4 | Total data size (frame_size × 50) |
+**Structure:**
 
-Most files have 256×192 frames. Some files (possibly a different capture mode) have 1024×768 frames—these may contain visible camera data rather than thermal.
+| Offset | Size | Contents | Example Value |
+|--------|------|----------|---------------|
+| 0–3 | 4 | Header/version | `00 02 02 00` |
+| 4–9 | 6 | "IJPEG\0" magic | |
+| 12–15 | 4 | Format flags | `04 03 03 00` |
+| 16–17 | 2 | Unknown | 100 |
+| 18–20 | 3 | Varies per image | Counter/timestamp? |
+| 32–35 | 4 | Frame size (bytes) | 98304 (256×192×2) |
+| 40–41 | 2 | Frame count | 2 |
+| 42–43 | 2 | Width | 256 |
+| 44–45 | 2 | Height | 192 |
+| 46–47 | 2 | Bit depth | 16 |
+| 64–67 | 4 | Total data size | 4915200 (98304×50) |
+
+**Observations:**
+- Frame size 98304 = 256 × 192 × 2 bytes (one 16-bit frame)
+- Total size 4915200 = space for 50 frames (though only 2 are typically used)
+- Bytes 18–20 are the only values that change between images—possibly a capture counter or timestamp
+- The header could be used to auto-detect frame dimensions instead of hardcoding them
 
 ---
 
