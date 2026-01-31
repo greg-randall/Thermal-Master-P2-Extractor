@@ -1,4 +1,4 @@
-# Thermal Master P2 image extractor
+# Thermal Master P2 Image Extractor
 
 Extracts embedded thermal data from JPEG files produced by the Thermal Master P2 infrared camera.
 
